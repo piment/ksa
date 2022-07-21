@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String     @id @default(uuid())
+  email          String  @unique
+  nickname       String?
+  password       String
+  role           ROLE @default(USER)
+  affiliate_code String @default(uuid())
+  files          File[]
+  profile_pic    String?
+  affiliate      User?   @relation("affiliates", fields: [affiliateId], references: [id])
+  refferal       User?   @relation("affiliates")
+  affiliateId    String?    @unique
+}
+
+model File {
+  id      String     @id @default(uuid())
+  title   String
+  shared  Boolean
+  url     String
+  owner   User    @relation(fields: [ownerId], references: [id])
+  ownerId String
+  add_at String?
+}
+
+enum ROLE {
+  USER
+  ADMIN
+}

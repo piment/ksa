@@ -1,0 +1,14 @@
+Checkpoint 4
+
+Application de partage d'ebooks (Privée)
+
+- Accès à l'application uniquement par parrainage (Inscription avec code du parrain + code de vérification)
+- Possibilité pour le parrain d'envoyer son code de parrainage directement par mail (Avec code de vérification généré automatiquement)
+
+- Possibilité d'uploader des ebooks [.pdf, .cbr, ...] (Formats autorisés seulement, définis à par l'admin)
+- Lecture des ebooks directement sur l'application, ou possibilité de downloader le fichier.
+- Possibilité de limiter l'accès à un fichier, avec demande d'autorisation d'accès pour les autres utilisateurs.
+- Gestion de ses propres fichiers uploadés (modification des droits, suppression, ...)
+
+
+
