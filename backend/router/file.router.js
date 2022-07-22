@@ -7,29 +7,24 @@ const upload = multer({ dest: './ebooks/' });
 const fileController = require('../controller/file.controller');
 
 router.get('/:id', (req, res) => {
-  fileController.getFiles(req.params.id).then(data => {
-    console.log(data)
-    let datatemp = fs.readFileSync('' + data.url + '.pdf');
-    res.attachment(data.url);
-    res.contentType('application/pdf');
-  //res.send(`Page GET File with id: ${req.params.id} is OK!`);
-  res.send(datatemp);
-  });
-  
-})
+  fileController
+    .getFiles(req.params.id)
+    .then((data) => {
+      res.download(data.url, data.title + '.pdf');
+    })
+    .catch((error) => res.status(500).send(error));
+});
 
 router.post('/', upload.single('ebook'), async (req, res) => {
-  const {file, body} = req;
+  const { file, body } = req;
   const correctTitle = (title) => {
-    return title.toLowerCase().replace(/\s/g, '_') + '.pdf';
-  }
+    return title.toLowerCase().replace(/\s/g, '_');
+  };
 
-  //fs.rename(file.path, file.destination + correctTitle(body.title), error => {if(error){console.log(error)}});
-  fs.rename(file.path, file.path + '.pdf', error => {if(error){console.log(error)}});
-  file['user'] = 'ab1ce03a-011d-41ef-9ec0-3cff40ee163d';
+  file['user'] = body.user;
   file.title = correctTitle(body.title);
   const newFile = await fileController.create(file);
-  res.send(newFile)
-})
+  res.send(newFile);
+});
 
 module.exports = router;

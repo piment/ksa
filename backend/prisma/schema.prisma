@@ -18,7 +18,7 @@ model User {
   role           ROLE @default(USER)
   affiliate_code String @default(uuid())
   files          File[]
-  profile_pic    String?
+  profil_pict    String?
   affiliate      User?   @relation("affiliates", fields: [affiliateId], references: [id])
   refferal       User?   @relation("affiliates")
   affiliateId    String?    @unique
@@ -32,8 +32,14 @@ model File {
   owner   User    @relation(fields: [ownerId], references: [id])
   ownerId String
   add_at String?
+  categories Category[] 
 }
 
+model Category {
+  id Int @id @default(autoincrement())
+  name String @unique
+  files File[] 
+}
 enum ROLE {
   USER
   ADMIN

@@ -2,15 +2,14 @@ const Express = require('express');
 const router = Express.Router();
 const UserController = require('../controller/user.controller');
 
-router.get('/:id', (req, res) => {
-  UserController.get(req.params.id)
+router.get('/:email', (req, res) => {
+  UserController.get(req.params.email)
     .then((user) => {
-      if(user){
+      if (user) {
         res.send(user);
       } else {
-        res.status(404).send("User not founded")
+        res.status(404).send('User not founded');
       }
-      
     })
     .catch((error) => res.sendStatus(500));
 });

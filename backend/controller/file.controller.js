@@ -1,12 +1,14 @@
 const { PrismaClient } = require('@prisma/client');
-
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
+const FileModel = require('../model/file.model');
 
 class File {
   static async getFiles(id) {
-    console.log("GET FILES METHOD")
-    const file = await prisma.file.findUnique({where: {id}});
-    return file;
+    return new Promise((resolve, reject) => {
+      FileModel.getFileById(id)
+        .then((file) => resolve(file))
+        .catch((error) => reject(error));
+    });
   }
 
   static async create(file) {
@@ -15,11 +17,11 @@ class File {
         title: file.title,
         shared: false,
         url: file.path,
-        ownerId: file.user
-      }
-    })
+        ownerId: file.user,
+      },
+    });
     return newFile;
   }
-} 
+}
 
 module.exports = File;
